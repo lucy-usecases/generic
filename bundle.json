@@ -1,0 +1,16 @@
+{
+    "id":"89c7d982-cb8c-467a-e23e-0b004206c214",
+    "author":"eutech",
+    "widgets":[
+        {
+            "id":"gauge-widget",
+            "title":"Gauge",
+            "description":"A simple gauge showing a single value"
+        },
+        {
+            "id":"request-widget",
+            "title":"User Request",
+            "description":"Allow a user to make a simple request"
+        }
+    ]
+}
