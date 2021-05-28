@@ -2,7 +2,7 @@ import { registerWidget, registerLink, registerUI, IContextProvider, } from './u
 import './styles.scss';
 import {GaugeWidget} from './gauge';
 import { RequestWidget } from './request';
-
+import {WeatherWidget} from './WeatherWidget/WeatherWidget';
 
 registerWidget({
     id: "gauge-widget",
@@ -91,5 +91,22 @@ registerWidget({
             },
           
         ]
+    }
+});
+
+/**
+ * Register as a Widget
+ */
+ registerWidget({
+    id: "WeatherWidget",
+    name: "Weather Widget",
+    widget: WeatherWidget,
+    configs: {
+        layout: {
+            // w: 12,
+            // h: 12,
+            // minH: 12,
+            // minW: 12
+        }
     }
 });

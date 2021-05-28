@@ -1,0 +1,221 @@
+ 
+.weather_widget{
+    // width: 100%;
+    // height: 100%;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: inline-block;
+    flex-wrap: wrap;
+    background: #a67c1fa3;
+    color: #000;
+
+    &:after{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: #ad801c17;
+        filter: blur(2px);
+    }
+
+    .weather-video{ 
+            display: inline-block;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 0;
+            opacity: 0.8;
+            filter: blur(3px);
+
+            .VideoBg-module_wrapper__3FlD_{
+                position: unset;
+
+                video{
+                    height: fit-content;
+                    width: fit-content;
+                } 
+
+            }
+
+           
+      
+    }
+
+    .weather_icon{
+        display: inline-block;
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        width: 50px;
+        height: 50px;
+
+        img{
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+
+    .weather_widget-top{
+        width: 100%;
+        display: inline-block;
+        position: relative;
+
+        .perc-value{
+            width: 47%;
+            display: inline-block;
+
+            img{
+                max-width: 100%;
+                max-height: 100%;
+                display: inline-block;
+                width: 35px;
+            }
+            p{
+                font-size: 1.2em;
+                display: inline-block;
+                padding: 12px 0 0 0;
+                margin: 0;
+                vertical-align: top;
+            }
+        } 
+    }
+
+    .weather-content{ 
+        // display: inline-block;
+        // vertical-align: middle;
+        // height: 25vh;
+        // text-align: center;
+        // width: 100%;
+
+        text-align: center;
+        width: 100%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 40%;
+
+        h4{
+            width: 100%;
+            display: inline-block;
+            font-size: 3em;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+
+            span{
+                font-size: 0.7em;
+                vertical-align: text-top;
+            }
+            sup{
+                font-size: 0.5em;
+                vertical-align: top;
+            }
+        }
+        p{
+            width: 100%;
+            display: inline-block;
+            font-size: 2em;
+            text-align: center;
+            text-transform: uppercase;
+            padding: 15px 0 0 0;
+            margin: 0;
+        } 
+    }
+
+    .daylist{
+        display: flex;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        bottom: 1.5em;
+        left: 0;
+        color: #000;
+
+        li{
+            list-style: none;
+            width: 18%;
+            padding: 0 3%;
+            font-size: 1.2em;
+            text-align: center;
+
+            .label{
+                display: inline-block;
+                width: 100%;
+                margin-top: 5px;
+            }
+            .value{
+                display: inline-block;
+                width: 100%;
+                margin-top: 10px;
+            }
+            .status{
+                display: inline-block;
+                width: 100%;
+                margin-top: 5px;
+
+                img{
+                    max-width: 80%;
+                    max-height: 80%;
+                }
+            }
+        }
+    }
+    &:hover{ 
+        -webkit-transition: 0.5s ease-in-out;
+        -moz-transition: 0.5s ease-in-out;
+        -ms-transition: 0.5s ease-in-out;
+        -o-transition: 0.5s ease-in-out;
+        transition: 0.5s ease-in-out;
+
+        .daylist, .weather_widget-top{
+            display: none;
+        } 
+
+        .weather-content { 
+            transform: translate(-50%, 0%);
+            left: 50%;
+            top: unset;
+            background: #00000091;
+            padding: 20px 0;
+            bottom: 0;
+            color: #fff; 
+
+            // animation : topbottom 5s infinite;
+        }
+
+         .weather_icon {  
+            animation-name: spin;
+            animation-duration: 4000ms;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        @keyframes spin { 
+            from { 
+                transform: rotate(0deg); 
+            } to { 
+                transform: rotate(360deg); 
+            }
+        }
+
+        @keyframes topbottom { 
+            0% {  
+                left: 50%; 
+                padding: 15px 0; 
+                color: #fff; 
+            } 100% { 
+                bottom: 0;
+                top: unset;
+                background: #00000038;
+                transform: translate(-50%, 0%);
+            }
+        }
+       
+    }
+}
+
