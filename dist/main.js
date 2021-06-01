@@ -9655,9 +9655,9 @@ module.exports = /*#__PURE__*/function (_BaseClient) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack-dev-server/client/index.js?http://localhost:8081":
+/***/ "./node_modules/webpack-dev-server/client/index.js?http://localhost:8080":
 /*!*********************************************************!*\
-  !*** (webpack)-dev-server/client?http://localhost:8081 ***!
+  !*** (webpack)-dev-server/client?http://localhost:8080 ***!
   \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -9839,7 +9839,7 @@ var onSocketMessage = {
   }
 };
 socket(socketUrl, onSocketMessage);
-/* WEBPACK VAR INJECTION */}.call(this, "?http://localhost:8081"))
+/* WEBPACK VAR INJECTION */}.call(this, "?http://localhost:8080"))
 
 /***/ }),
 
@@ -10594,7 +10594,7 @@ exports.WeatherWidget = (props) => {
             react_1.default.createElement("div", { className: "weather_widget" },
                 react_1.default.createElement("div", { className: "weather-video" },
                     react_1.default.createElement(VideoBg_1.VideoBg, { loop: true },
-                        react_1.default.createElement(VideoBg_1.Source, { src: "video/sunny.mp4", type: "video/mp4" })),
+                        react_1.default.createElement(VideoBg_1.Source, { src: "video/cloudy.mp4", type: "video/mp4" })),
                     ";"),
                 react_1.default.createElement("div", { className: "weather_widget-top" },
                     react_1.default.createElement("div", { className: "perc-value" },
@@ -11040,12 +11040,12 @@ exports.registerUI = registerUI;
 
 /***/ 0:
 /*!*******************************************************************************!*\
-  !*** multi (webpack)-dev-server/client?http://localhost:8081 ./src/index.tsx ***!
+  !*** multi (webpack)-dev-server/client?http://localhost:8080 ./src/index.tsx ***!
   \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/shivanan/eutech/usecases/generic/node_modules/webpack-dev-server/client/index.js?http://localhost:8081 */"./node_modules/webpack-dev-server/client/index.js?http://localhost:8081");
+__webpack_require__(/*! /Users/shivanan/eutech/usecases/generic/node_modules/webpack-dev-server/client/index.js?http://localhost:8080 */"./node_modules/webpack-dev-server/client/index.js?http://localhost:8080");
 module.exports = __webpack_require__(/*! ./src/index.tsx */"./src/index.tsx");
 
 

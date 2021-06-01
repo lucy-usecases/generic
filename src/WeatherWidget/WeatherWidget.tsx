@@ -7,7 +7,7 @@ import './weather.scss';
 import {VideoBg,Source} from '../components/VideoBg/VideoBg';
 
  
-interface IDonutChartProps{
+interface IWeatherWidgetProps{
     uxpContext?: IContextProvider;
 } 
 
@@ -57,7 +57,7 @@ var dataset1 = [
  ] 
  
 
-export const WeatherWidget:React.FunctionComponent<IDonutChartProps> = (props) =>  {  
+export const WeatherWidget:React.FunctionComponent<IWeatherWidgetProps> = (props) =>  {  
 
     let [data,setData] = React.useState([])
 
@@ -112,7 +112,7 @@ const DayWeatherlist = () => (
 
 
               <VideoBg loop={true} > 
-                <Source src="video/sunny.mp4" type="video/mp4" />
+                <Source src="video/cloudy.mp4" type="video/mp4" />
               </VideoBg>;
 
           </div> 
