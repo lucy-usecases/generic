@@ -10,16 +10,16 @@
     background: #a67c1fa3;
     color: #000;
 
-    &:after{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: #ad801c17;
-        filter: blur(2px);
-    }
+    // &:after{
+    //     content: '';
+    //     position: absolute;
+    //     left: 0;
+    //     top: 0;
+    //     width: 100%;
+    //     height: 100%;
+    //     background: #ad801c17;
+    //     filter: blur(2px);
+    // }
 
     .weather-video{ 
             display: inline-block;
@@ -30,6 +30,7 @@
             z-index: 0;
             opacity: 0.8;
             filter: blur(3px);
+            height: 100%;
 
             .VideoBg-module_wrapper__3FlD_{
                 position: unset;
@@ -46,51 +47,103 @@
     }
 
     .weather_icon{
+        // display: inline-block;
+        // position: absolute;
+        // top: 1em;
+        // right: 1em;
+        // width: 50px;
+        // height: 50px;
+        // background-image: url(icons/Black/feather-sun1.svg);
+        // background-position: center center;
+        // background-repeat: no-repeat;
+        // background-size: contain;
+
+        // display: inline-block;
+        // position: absolute;
+        // top: 2em;
+        // right: 0.5em;
+        // width: 3em;
+        // height: 3em;
+
         display: inline-block;
         position: absolute;
-        top: 1em;
-        right: 1em;
-        width: 50px;
-        height: 50px;
+        top: 2em;
+        right: 2em;
+        width: 2.2em;
+        height: 2.2em;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 100% auto;
 
-        img{
-            max-width: 100%;
-            max-height: 100%;
+        // img{
+        //     max-width: 100%;
+        //     max-height: 100%;
+        // }
+
+        &.sun{  
+            background-image: url("icons/Black/Icon feather-sun.svg") 
         }
+        &.drizzle{  
+            background-image: url("icons/Black/Icon feather-cloud-drizzle.svg") 
+        }
+        &.cloudy{
+            background-image: url("icons/Black/Icon feather-cloud.svg")
+        }
+        &.lightning{
+            background-image: url("icons/Black/Icon feather-cloud-lightning.svg")
+        }
+        &.snow{
+            background-image: url("icons/Black/Icon feather-cloud-snow.svg")
+        }
+        &.rain{
+            background-image: url("icons/Black/Icon feather-cloud-rain.svg")
+        } 
+        &.thunder{
+            background-image: url("icons/Black/Icon feather-cloud-snow.svg") 
+        } 
     }
 
     .weather_widget-top{
         width: 100%;
         display: inline-block;
-        position: relative;
+        position: relative;  
 
         .perc-value{
             width: 47%;
             display: inline-block;
 
-            img{
-                max-width: 100%;
-                max-height: 100%;
-                display: inline-block;
-                width: 35px;
-            }
+            // img{
+            //     max-width: 100%;
+            //     max-height: 100%;
+            //     display: inline-block;
+            //     width: 35px;
+            // }
             p{
                 font-size: 1.2em;
                 display: inline-block;
-                padding: 12px 0 0 0;
+                padding: 8px 0 0 32px;
                 margin: 0;
                 vertical-align: top;
+                position: relative;
+
+                &:before{
+                    content: '';
+                    position: absolute;
+                    top: 0em;
+                    left: 0em;
+                    width: 30px;
+                    height: 30px;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    background-size: 100% auto;
+                    background-image: url(images/drop.svg) 
+
+                }
             }
         } 
     }
 
-    .weather-content{ 
-        // display: inline-block;
-        // vertical-align: middle;
-        // height: 25vh;
-        // text-align: center;
-        // width: 100%;
-
+    .weather-content{  
         text-align: center;
         width: 100%;
         position: absolute;
@@ -153,69 +206,88 @@
                 width: 100%;
                 margin-top: 10px;
             }
-            .status{
+            .status{  
                 display: inline-block;
-                width: 100%;
-                margin-top: 5px;
-
-                img{
-                    max-width: 80%;
-                    max-height: 80%;
+                width: 30px;
+                margin-top: 0px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                height: 30px;
+                background-size: contain; 
+            
+                &.sun{  
+                    background-image: url("icons/Black/Icon feather-sun.svg") 
                 }
+                &.drizzle{  
+                    background-image: url("icons/Black/Icon feather-cloud-drizzle.svg") 
+                }
+                &.cloudy{
+                    background-image: url("icons/Black/Icon feather-cloud.svg")
+                }
+                &.lightning{
+                    background-image: url("icons/Black/Icon feather-cloud-lightning.svg")
+                }
+                &.snow{
+                    background-image: url("icons/Black/Icon feather-cloud-snow.svg")
+                }
+                &.rain{
+                    background-image: url("icons/Black/Icon feather-cloud-rain.svg")
+                } 
+                &.thunder{
+                    background-image: url("icons/Black/Icon feather-cloud-snow.svg") 
+                } 
+
             }
         }
     }
-    &:hover{ 
-        -webkit-transition: 0.5s ease-in-out;
-        -moz-transition: 0.5s ease-in-out;
-        -ms-transition: 0.5s ease-in-out;
-        -o-transition: 0.5s ease-in-out;
-        transition: 0.5s ease-in-out;
+    // &:hover{ 
+    //     -webkit-transition: 0.5s ease-in-out;
+    //     -moz-transition: 0.5s ease-in-out;
+    //     -ms-transition: 0.5s ease-in-out;
+    //     -o-transition: 0.5s ease-in-out;
+    //     transition: 0.5s ease-in-out;
 
-        .daylist, .weather_widget-top{
-            display: none;
-        } 
+    //     .daylist, .weather_widget-top{
+    //         display: none;
+    //     } 
 
-        .weather-content { 
-            transform: translate(-50%, 0%);
-            left: 50%;
-            top: unset;
-            background: #00000091;
-            padding: 20px 0;
-            bottom: 0;
-            color: #fff; 
+    //     .weather-content { 
+    //         transform: translate(-50%, 0%);
+    //         left: 50%;
+    //         top: unset;
+    //         background: #00000091;
+    //         padding: 20px 0;
+    //         bottom: 0;
+    //         color: #fff;  
+    //     }
 
-            // animation : topbottom 5s infinite;
-        }
+    //      .weather_icon {  
+    //         animation-name: spin;
+    //         animation-duration: 4000ms;
+    //         animation-iteration-count: infinite;
+    //         animation-timing-function: linear;
+    //     }
 
-         .weather_icon {  
-            animation-name: spin;
-            animation-duration: 4000ms;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
-        }
+    //     @keyframes spin { 
+    //         from { 
+    //             transform: rotate(0deg); 
+    //         } to { 
+    //             transform: rotate(360deg); 
+    //         }
+    //     }
 
-        @keyframes spin { 
-            from { 
-                transform: rotate(0deg); 
-            } to { 
-                transform: rotate(360deg); 
-            }
-        }
-
-        @keyframes topbottom { 
-            0% {  
-                left: 50%; 
-                padding: 15px 0; 
-                color: #fff; 
-            } 100% { 
-                bottom: 0;
-                top: unset;
-                background: #00000038;
-                transform: translate(-50%, 0%);
-            }
-        }
-       
-    }
+    //     @keyframes topbottom { 
+    //         0% {  
+    //             left: 50%; 
+    //             padding: 15px 0; 
+    //             color: #fff; 
+    //         } 100% { 
+    //             bottom: 0;
+    //             top: unset;
+    //             background: #00000038;
+    //             transform: translate(-50%, 0%);
+    //         }
+    //     } 
+    // }
 }
 

@@ -107,6 +107,33 @@ registerWidget({
             // h: 12,
             // minH: 12,
             // minW: 12
-        }
+        },
+        props:[
+            {
+                name:"model",
+                "label":"Lucy Model to call",
+                "type":"String",
+                
+            },
+            {
+                name:"action",
+                "label":"Name of the action to call",
+                "type":"String",
+              
+            },
+            {
+                name:"location",
+                "label":"The location to get weather for (lat,lng)",
+                "type":"String",
+              
+            },
+            {
+                name:"title",
+                "label":"Widget Title",
+                "type":"String",
+                
+            },
+          
+        ]
     }
 });

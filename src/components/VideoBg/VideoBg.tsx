@@ -9,6 +9,7 @@ interface VideoBgProps  {
     onEnded?: ()=>void,
     onPlay?: ()=>void,
     onPlaying?: ()=>void,
+    source: string,
 };
 export const VideoBg:React.FunctionComponent<VideoBgProps> = ({
   
@@ -20,6 +21,7 @@ export const VideoBg:React.FunctionComponent<VideoBgProps> = ({
   children,
   onPlaying,
   onPlay,
+  source
 
 }) => {
   return (
@@ -35,6 +37,7 @@ export const VideoBg:React.FunctionComponent<VideoBgProps> = ({
         onEnded={onEnded ||( ()=>{}) }
         onPlaying={onPlaying || (()=>{}) }
         onPlay={onPlay || (() => {})}
+        key={source}
       >
         {children}
       </video>

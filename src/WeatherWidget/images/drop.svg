@@ -1,0 +1,14 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg" style="user-select: auto;">
+
+ <title style="user-select: auto;"/>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path style="user-select: auto;" fill="#000000" id="svg_1" d="m50,38.36a18.5,18.5 0 0 1 -37,0c0,-16.19 15,-31.22 18.5,-31.22s18.5,15.03 18.5,31.22z" class="cls-1"/>
+  <path fill="#e0e0e0" id="svg_2" d="m29.3,34.07c0,3.32 -2.1,5.05 -4.4,5.05s-4.32,-1.81 -4.32,-4.79s1.73,-5 4.44,-5s4.28,2.03 4.28,4.74zm-6,0.17c0,1.66 0.56,2.86 1.64,2.86s1.56,-1.07 1.56,-2.86c0,-1.61 -0.44,-2.86 -1.59,-2.86s-1.57,1.28 -1.57,2.86l-0.04,0zm19.66,6.43c0,3.32 -2.1,5.05 -4.4,5.05s-4.3,-1.81 -4.32,-4.79s1.73,-5 4.44,-5s4.32,2.07 4.32,4.74l-0.04,0zm-25.59,-6.26c0,1.66 0.54,2.86 1.61,2.86s1.56,-1.07 1.56,-2.86c0,-1.61 -0.42,-2.86 -1.56,-2.86s18.13,7.7 18.13,9.29l-19.74,-6.43z" class="cls-2"/>
+  <line stroke-width="2px" stroke-linejoin="round" stroke-linecap="round" stroke="#e0e0e0" fill="none" id="svg_3" y2="44.72" y1="29.69" x2="27.45" x1="36.7" class="cls-3"/>
+ </g>
+</svg>
