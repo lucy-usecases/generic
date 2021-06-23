@@ -98,7 +98,7 @@ registerWidget({
  * Register as a Widget
  */
  registerWidget({
-    id: "WeatherWidget",
+    id: "weather-widget",
     name: "Weather Widget",
     widget: WeatherWidget,
     configs: {
@@ -126,13 +126,7 @@ registerWidget({
                 "label":"The location to get weather for (lat,lng)",
                 "type":"String",
               
-            },
-            {
-                name:"title",
-                "label":"Widget Title",
-                "type":"String",
-                
-            },
+            }
           
         ]
     }

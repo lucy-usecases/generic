@@ -12,5 +12,11 @@
             "title":"User Request",
             "description":"Allow a user to make a simple request"
         }
+        ,
+        {
+            "id":"weather-widget",
+            "title":"Weather Widget",
+            "description":"Display weather information for today and the coming week for a given location"
+        }
     ]
 }
