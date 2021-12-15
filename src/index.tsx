@@ -1,9 +1,30 @@
-import { registerWidget, registerLink, registerUI, IContextProvider, } from './uxp';
+import React, { useState } from 'react'
+import { registerWidget, IContextProvider } from './uxp';  
+import { DataList, WidgetWrapper } from "uxp/components";
+
+
 import './styles.scss';
 import {GaugeWidget} from './gauge';
 import { RequestWidget } from './request';
 import {WeatherWidget} from './WeatherWidget/WeatherWidget';
 
+interface IWidgetProps {
+
+}
+const ComingSoonWidget:React.FunctionComponent<IWidgetProps> = (props) =>  {    
+    return <WidgetWrapper className='coming-soon'>
+        <div className='t'>Coming Soon</div>
+    </WidgetWrapper>
+}
+
+registerWidget({
+    id:'coming-soon',
+    name:'Coming Soon',
+    widget:ComingSoonWidget,
+    configs:{
+        layout:{}
+    }
+})
 registerWidget({
     id: "gauge-widget",
     name: "Gauge",

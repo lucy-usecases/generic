@@ -17,6 +17,11 @@
             "id":"weather-widget",
             "title":"Weather Widget",
             "description":"Display weather information for today and the coming week for a given location"
+        },
+        {
+            "id":"coming-soon",
+            "title":"Coming Soon Placeholder",
+            "description":"Just a placeholder for future changes"
         }
     ]
 }

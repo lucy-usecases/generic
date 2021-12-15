@@ -1,0 +1,12 @@
+.coming-soon {
+    background-image: url(../images/coming-soon.svg);
+    background-position: 50% 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    .t {
+        padding:40px;
+        text-transform: uppercase;
+        font-size:20px;
+        opacity: 0.8;;
+    }
+}
