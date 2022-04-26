@@ -22,6 +22,11 @@
             "id":"coming-soon",
             "title":"Coming Soon Placeholder",
             "description":"Just a placeholder for future changes"
+        },
+        {
+            "id":"notice",
+            "title":"Notice Widget",
+            "description":"Show some text/information on the dashboard"
         }
     ]
 }

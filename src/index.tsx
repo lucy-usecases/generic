@@ -17,12 +17,37 @@ const ComingSoonWidget:React.FunctionComponent<IWidgetProps> = (props) =>  {
     </WidgetWrapper>
 }
 
+interface INoticeWidgetProps {
+    message: string;
+}
+const NoticeWidget:React.FunctionComponent<INoticeWidgetProps> = (props) =>  {    
+    return <div className='generic-notice-widget'>
+        <div className='t'>{props.message}</div>
+    </div>
+}
+
 registerWidget({
     id:'coming-soon',
     name:'Coming Soon',
     widget:ComingSoonWidget,
     configs:{
         layout:{}
+    }
+})
+
+registerWidget({
+    id:'notice',
+    name:'Notice Widget',
+    widget:NoticeWidget,
+    configs:{
+        layout:{},
+        props:[
+            {
+                name:"message",
+                "label":"Message to display",
+                "type":"String"
+            }
+        ]
     }
 })
 registerWidget({
