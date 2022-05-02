@@ -8,6 +8,11 @@
             "description":"A simple gauge showing a single value"
         },
         {
+            "id":"event-stream",
+            "title":"Event Stream",
+            "description":"A list of incoming events"
+        },
+        {
             "id":"request-widget",
             "title":"User Request",
             "description":"Allow a user to make a simple request"
