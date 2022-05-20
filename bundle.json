@@ -32,6 +32,14 @@
             "id":"notice",
             "title":"Notice Widget",
             "description":"Show some text/information on the dashboard"
+        },
+        {
+            "id":"alert",
+            "title":"Alert Ticker",
+            "description":"Shows a ticker with alert messages"
         }
-    ]
+    ],
+    "sidebarLinks":[],
+    "menuItems":[],
+    "uis":[]
 }

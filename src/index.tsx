@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { registerWidget, IContextProvider } from './uxp';  
-import { DataList, WidgetWrapper } from "uxp/components";
+import { DataList, PortalContainer, useEffectWithPolling, useEventSubscriber, WidgetWrapper } from "uxp/components";
 
 
 import './styles.scss';
 import {GaugeWidget} from './gauge';
 import { RequestWidget } from './request';
 import {WeatherWidget} from './WeatherWidget/WeatherWidget';
+import { DiagnosticCategory } from 'typescript';
 
 interface IWidgetProps {
 
@@ -26,18 +27,102 @@ const NoticeWidget:React.FunctionComponent<INoticeWidgetProps> = (props) =>  {
     </div>
 }
 
+interface IAlertTickerProps {
+    uxpContext?: IContextProvider;
+    instanceId?: string;
+    model: string;
+    action: string;
+    category: string;
+    locationFilterCategory: string;
+
+
+}
+interface IAlertMessage {
+    message: string;
+    timestamp: string;
+    category: string;
+}
+const AlertTicker:React.FunctionComponent<IAlertTickerProps> = (props) => {
+    let [messages,setMessages] = React.useState<string[]>([]);
+    let [location,setLocation] = React.useState('');
+    let [animated,setAnimated] = React.useState(false);
+    const p = React.useRef<HTMLDivElement>(null) ;
+    const c = React.useRef<HTMLDivElement>(null) ;
+    useEventSubscriber(props.instanceId, 'globalFilterLocationChanged', (data) => {
+        console.log('globalFilterLocationChanged', data);
+        let { location } = data || [];
+        let locationItem = (location[location.length - 1] || {});
+        let id = locationItem[props.locationFilterCategory] || locationItem.name;
+        if (id) {
+            setLocation(id);
+        }
+
+    });
+    useEffectWithPolling(props.uxpContext,'alert-ticker/' +DiagnosticCategory,30000,async ()=>{
+        if (!props.model) return;
+        if (!props.action) return;
+        let data = await props.uxpContext.executeAction(props.model,props.action,{category:props.category,location:''},{json:true}) as IAlertMessage[];
+        setMessages(data.map(x=>x.message));
+    },[location,props.model,props.action,props.category]);
+  
+    useEffect(()=>{
+        if (p?.current && c?.current) {
+            if (p?.current?.clientWidth < p?.current?.scrollWidth) {
+               setAnimated(true);
+               return;
+            }
+        }
+        setAnimated(false);
+    },[messages]);
+   
+    if (!messages?.length) {
+        return <div />
+    }
+    return <PortalContainer disableScroll={false}>
+<div className='generic-alert-ticker' ref={p}>
+        <div className={'generic-ticker-tape ' + (animated?'animated':'')} ref={c} >{messages.join(' • ')}</div>
+    </div>
+    </PortalContainer>;
+
+}
 registerWidget({
     id:'coming-soon',
-    name:'Coming Soon',
     widget:ComingSoonWidget,
     configs:{
         layout:{}
     }
 })
-
+registerWidget({
+    id:'alert',
+    widget:AlertTicker,
+    configs:{
+        layout:{},
+        props:[
+            {
+                name:"model",
+                "label":"Lucy Model",
+                "type":"string"
+            },
+            {
+                name:"action",
+                "label":"Lucy Action",
+                "type":"string"
+            },
+            {
+                name:"category",
+                "label":"Alert Category",
+                "type":"string"
+            },
+            {
+                name:"locationFilterCategory",
+                "label":"Which location filter attribute should this widget react to",
+                "type":"string"
+            },
+        ]
+    }
+})
 registerWidget({
     id:'notice',
-    name:'Notice Widget',
     widget:NoticeWidget,
     configs:{
         layout:{},
@@ -52,7 +137,6 @@ registerWidget({
 })
 registerWidget({
     id: "gauge-widget",
-    name: "Gauge",
     widget: GaugeWidget,
     configs: {
         layout: {
@@ -110,7 +194,6 @@ registerWidget({
 
 registerWidget({
     id: "request-widget",
-    name: "User Request",
     widget: RequestWidget,
     configs: {
         layout: {
@@ -145,7 +228,6 @@ registerWidget({
  */
  registerWidget({
     id: "weather-widget",
-    name: "Weather Widget",
     widget: WeatherWidget,
     configs: {
         layout: {

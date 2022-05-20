@@ -27,6 +27,133 @@ declare module "uxp/components" {
     }
         
     /**
+     * @export
+     * An individual item in a Select list.
+     * The `label` is what is shown to the user.
+     * The `value` is what is internally stored and available as the `value` prop.
+     */
+    export interface IOption {
+        label: string,
+        value: string
+    }
+        
+    /**
+     * @export
+     */
+    export interface ISelectProps {
+        /**
+         * List of items to select from.
+         * Each option has a label which is displayed and a value which is what we actually select.
+         * also you can pass any object as options, then specify the labelField, valueField props
+         */
+        options: IOption[] | any[],
+        /**
+         * Name of the field you want to display as label
+         * If not given default(label) will be used
+         */
+        labelField?: string,
+        /**
+         * Name of the field you want to return  as value
+         * If not given default(value) will be used
+         */
+        valueField?: string,
+        /**
+         * The  currently selected value
+         */
+        selected: string,
+    
+        /**
+         * Gets called whenever the selection changes.
+         * The value parameter has the newly selected value
+         * option parameter has the complete option/ object that you passed
+         */
+        onChange: (value: string, option?: IOption | any) => void,
+    
+        /**
+         * Text to show when no value is selected
+         */
+        placeholder?: string,
+        /**
+         * Any extra css classes to add to the component
+         */
+        className?: string,
+    
+        /**
+         * Set this to false to indicate the field doesn't have a valid value
+         */
+        isValid?: boolean,
+        // inputAttr?: any
+        /**
+         * show hide end of content message
+         */
+        showEndOfContent?: boolean
+    
+    }
+        
+    /**
+     * @export
+     * Options that can be passed to a date picker field
+     */
+    export interface IDatePickerOptions {
+        /**
+         * The minimum selectable date. Either a Date object an an ISO8601 date string
+         */
+        minDate?: string | Date,
+    
+        /**
+         * The maximum selectable date. Either a Date object an an ISO8601 date string
+         */
+        maxDate?: string | Date,
+    
+        /**
+         * If set to `true`, you cannot select a weekend date
+         */
+        disableWeekEnds?: boolean,
+    
+        /**
+         * An array of specific dates that the user cannot select
+         */
+        disableDates?: Array<Date | String>
+    }
+        
+    /**
+     * @export
+     *
+     */
+    export interface IDatePickerProps {
+        /**
+         * The title
+         */
+        title: string,
+    
+        /**
+         * The currently selected date. Either a Date object or an ISO8601 string representation of a date
+         */
+        date: string | Date,
+    
+        /**
+         * Callback that gets executed whenever a date is selected/changed in the date picker
+         */
+        onChange: (date: Date) => void,
+    
+        /**
+         * Called when the calendar popup is closed
+         */
+        closeOnSelect?: boolean,
+    
+        /**
+         * Additional options to control behavior
+         */
+        options?: IDatePickerOptions,
+    
+        /**
+         * Set to true to prevent a user from typing in a date
+         */
+        disableInput?: boolean,
+    
+    }
+        
+    /**
      * This function is invoked to display a toast (notification popup).
      *
      * @param icon - the icon to show in the notification popup
@@ -62,6 +189,13 @@ declare module "uxp/components" {
         info: IToast,
         custom: IToast,
         remove: IRemove
+    }
+        
+    /**
+     * @export
+     * Options that can be passed to Loaders
+     */
+    export interface IWidgetPreloaderLoaderProps {
     }
         
     /**
@@ -357,24 +491,8 @@ declare module "uxp/components" {
         
     /**
      * @export
-     * Options that can be passed to a date picker field
      */
-    export interface IDataTableColumn {
-        title: string | ITitleFunc,
-        width: string,
-        renderColumn: (item: any) => JSX.Element
-    }
-        
-    /**
-     * @export
-     * An individual pie chart slice
-     */
-    export interface IDataItem { name: string, value: number, color?: string }
-        
-    /**
-     * @export
-     */
-    export interface ISelectProps {
+    export interface IMultiSelectProps {
         /**
          * List of items to select from.
          * Each option has a label which is displayed and a value which is what we actually select.
@@ -393,15 +511,17 @@ declare module "uxp/components" {
         valueField?: string,
         /**
          * The  currently selected value
+         *
+         * ['option1', 'option2']
          */
-        selected: string,
+        selected: string[],
     
         /**
          * Gets called whenever the selection changes.
          * The value parameter has the newly selected value
          * option parameter has the complete option/ object that you passed
          */
-        onChange: (value: string, option?: IOption | any) => void,
+        onChange: (values: string[], options?: IOption[] | any[]) => void,
     
         /**
          * Text to show when no value is selected
@@ -423,6 +543,22 @@ declare module "uxp/components" {
         showEndOfContent?: boolean
     
     }
+        
+    /**
+     * @export
+     * Options that can be passed to a date picker field
+     */
+    export interface IDataTableColumn {
+        title: string | ITitleFunc,
+        width: string,
+        renderColumn: (item: any) => JSX.Element
+    }
+        
+    /**
+     * @export
+     * An individual pie chart slice
+     */
+    export interface IDataItem { name: string, value: number, color?: string }
         
     /**
      * @export
@@ -534,7 +670,7 @@ declare module "uxp/components" {
      *
      * @export
      */
-    export interface IMarker {
+    export interface IMarker extends MarkerEvents, LeafletMarkerOptions {
         /**
          * latitude
          */
@@ -564,6 +700,7 @@ declare module "uxp/components" {
          * use image coordinates to calculate bounds
          */
         imageCoordinates?: boolean,
+    
     }
         
     /**
@@ -614,7 +751,7 @@ declare module "uxp/components" {
          * heatmap={{values:[{latitude:2.3,longitude:-38.6,intensity:20},{latitude:2.4,longitude:-38.6,intensity:20},]}}
          * ```
          */
-        values:IHeatmapPoint[];
+        values: IHeatmapPoint[];
     
         /**
          * Optionally - a gradient specified as an object of floating point values as keys from 0-1 and colors as the values
@@ -624,25 +761,25 @@ declare module "uxp/components" {
          * heatmap={{values,gradient:{0.0:'blue',0.4:'yellow',0.7:'orange',0.9:'red'}}}
          * ```
          */
-        gradient?:{[stop:number]:string};
+        gradient?: { [stop: number]: string };
     
     
-        radius?:number;
+        radius?: number;
     
-        blue?:number;
+        blue?: number;
     
         /**
          * The maximum possible intensity value.
          * If not specified, the intensities will be scaled based on the range of values provided.
          * Specify a max to set what the maximum possible value can be and the range will be scaled according to that max value
          */
-        max?:number;
+        max?: number;
     
     
         /**
          * Set to true if the coordinates of the heatmap points are in the image coordinates system.
          */
-        imageCoordinates?:boolean;
+        imageCoordinates?: boolean;
     }
         
     /**
@@ -745,69 +882,6 @@ declare module "uxp/components" {
         
     /**
      * @export
-     * Options that can be passed to a date picker field
-     */
-    export interface IDatePickerOptions {
-        /**
-         * The minimum selectable date. Either a Date object an an ISO8601 date string
-         */
-        minDate?: string | Date,
-    
-        /**
-         * The maximum selectable date. Either a Date object an an ISO8601 date string
-         */
-        maxDate?: string | Date,
-    
-        /**
-         * If set to `true`, you cannot select a weekend date
-         */
-        disableWeekEnds?: boolean,
-    
-        /**
-         * An array of specific dates that the user cannot select
-         */
-        disableDates?: Array<Date | String>
-    }
-        
-    /**
-     * @export
-     *
-     */
-    export interface IDatePickerProps {
-        /**
-         * The title
-         */
-        title: string,
-    
-        /**
-         * The currently selected date. Either a Date object or an ISO8601 string representation of a date
-         */
-        date: string | Date,
-    
-        /**
-         * Callback that gets executed whenever a date is selected/changed in the date picker
-         */
-        onChange: (date: Date) => void,
-    
-        /**
-         * Called when the calendar popup is closed
-         */
-        closeOnSelect?: boolean,
-    
-        /**
-         * Additional options to control behavior
-         */
-        options?: IDatePickerOptions,
-    
-        /**
-         * Set to true to prevent a user from typing in a date
-         */
-        disableInput?: boolean,
-    
-    }
-        
-    /**
-     * @export
      * Dropdown button props
      */
     export interface IDropDownButtonProps {
@@ -883,14 +957,9 @@ declare module "uxp/components" {
         value: number;
     
         /**
-         * margin between container and svg
-         * default is 15px
-         */
-        margin?: number;
-        /**
-         * colors array
-         * color: name of the color
-         * stopAt: length of color distribution
+         * colors array.
+         * color: name of the color.
+         * stopAt: length of color distribution.
          *
          * default is blue, green, yellow, red colors at equal length
          */
@@ -901,12 +970,12 @@ declare module "uxp/components" {
          */
         label?: () => JSX.Element,
         /**
-         * if true show legend
+         * if true show legend.
          * default is false
          */
         legend?: boolean,
         /**
-         * color of the ticks
+         * color of the ticks.
          * default is white
          */
         tickColor?: string,
@@ -918,12 +987,81 @@ declare module "uxp/components" {
          * additional inline styles
          */
         styles?: React.CSSProperties
+    
+        /**
+         * if true show gradient colors
+         * default is false
+         */
+        gradient?: boolean,
+        /**
+         * thickness of the gauge
+         * This value is defend on the radius
+         * default is radius * 0.11
+         * max value is radius * 0.25
+         *
+         * if you pass a higher value than the max value, max value will be used
+         */
+        thickness?: number,
+        /**
+         * thickness of the large ticks
+         * default is 4
+         * min value is 1
+         * max value is 6
+         *
+         * if the given value is higher than the max value, max values will be used
+         */
+        largeTick?: number,
+        /**
+         * thickness of the small ticks
+         * default is 1
+         * min values is 1
+         * max values is 3
+         *
+         * if the given values is higher than the max value, max values will be used
+         */
+        smallTick?: number
+    }
+        
+    /**
+     * @export
+     *
+     */
+    export interface IColorPickerProps {
+        /**
+         *  default color
+        */
+        color: string,
+        /**
+         * callback on select a color
+         */
+        onChange: (color: string) => void,
+        /**
+         * picker position.  default is left
+         */
+        position?: IColorPickerPosition,
+        /**
+         * class name for additional styles
+         */
+        className?: string,
+        /**
+         * close the picker on select a color
+         * default is true
+         */
+        closeOnSelect?: boolean,
+        /**
+         * change display format
+         */
+        displayFormat?: IColorTypes
+        /**
+         * change return format
+         */
+        returnFormat?: IColorTypes
     }
         
     /**
      * @export
      */
-    export type IDataFunction = (max: number, lastPageToken: string, args?: any) => Promise<{ items: Array<any>, pageToken: string, total?: number }>;
+    export type IDataFunction = (max: number, lastPageToken: string, args?: any) => Promise<{ items: Array<any>, pageToken: string }>;
         
     /**
      * @export
@@ -959,12 +1097,6 @@ declare module "uxp/components" {
         
     /**
      * @export
-     * Options that can be passed to a date picker field
-     */
-    export type ITitleFunc = () => JSX.Element
-        
-    /**
-     * @export
      *
      * max: page size
      * last : last page token
@@ -972,6 +1104,12 @@ declare module "uxp/components" {
      * args has a default option 'query'. when you type in the search box, search text ill be set to this 'query'
      */
     export type IDynamicSelectDataFunction = (max: number, lastPageToken: string, args?: any) => Promise<{ items: Array<any>, pageToken: string }>
+        
+    /**
+     * @export
+     * Options that can be passed to a date picker field
+     */
+    export type ITitleFunc = () => JSX.Element
         
     /**
      * The react hook for resize effect
@@ -982,6 +1120,7 @@ declare module "uxp/components" {
     /**
      * @export
      * React Hook for using the Message Bus
+     *
      */
     export type MessageBusHook = (context:IContextProvider,channel:string,callback:(payload:string,channel:string)=>string) => void;
         
@@ -996,6 +1135,45 @@ declare module "uxp/components" {
     export type IUseUpdateWidgetProps = () => (id: string, props: any) => void
         
     /**
+     *
+     * @export
+     */
+    export type IEventDispatcher = (instanceId: string, eventName: string, data?: { [key: string]: any }) => void
+        
+    /**
+     *
+     * @export
+     */
+    export type IEventSubscriber = (instanceId: string, eventName: string, callback: (data?: { [key: string]: any }) => void) => void
+        
+    /**
+     *
+     * @export
+     */
+    export type IUseEffectWithPolling = (
+        /**
+         * UXP Context. You can get this from props (props.uxContext)
+         */
+        context: any,
+        /**
+         * message bus channel name
+         */
+        channel: string,
+        /**
+         * time interval in milliseconds
+         */
+        interval: number,
+        /**
+         * callback function to call when triggered
+         */
+        callback: () => Promise<void>,
+        /**
+         * list of dependencies
+         */
+        deps: any[]
+    ) => void
+        
+    /**
      * Um - animations. We need to work on this.
      * @export
      */
@@ -1004,7 +1182,7 @@ declare module "uxp/components" {
     /**
      * @export
      */
-    export type IButtonType = "search" | "close" | "done" | "arrow-up" | "arrow-down" | "arrow-left" | "arrow-right" | "filter" | "edit"| "delete" | "pin" ;
+    export type IButtonType = "search" | "close" | "done" | "arrow-up" | "arrow-down" | "arrow-left" | "arrow-right" | "filter" | "edit"| "delete" | "pin" | "copy" ;
         
     /**
      * @export
@@ -1016,6 +1194,17 @@ declare module "uxp/components" {
      * @export
      */
     export type IInputType = "text"| "password"| "number"|  "email";
+        
+    /**
+     * @export
+     * Determines how a checkbox field looks
+     */
+    export type ICheckboxType = "default" | "bordered" | "change-icon" | "switch-line" | "switch-box";
+        
+    /**
+     * @export
+     */
+    export type IPosition = "left" | "right";
         
     /**
      * @export
@@ -1035,17 +1224,6 @@ declare module "uxp/components" {
         
     /**
      * @export
-     * Determines how a checkbox field looks
-     */
-    export type ICheckboxType = "default" | "bordered" | "change-icon" | "switch-line" | "switch-box";
-        
-    /**
-     * @export
-     */
-    export type IPosition = "left" | "right";
-        
-    /**
-     * @export
      */
     export type regionType = "circle" | "rectangle" | "polygon"
         
@@ -1059,6 +1237,16 @@ declare module "uxp/components" {
      * dropdown position
      */
     export type IDropDownButtonPosition = "right" | "left" | "top left" | "top right" | "top center" | "bottom left" | "bottom right" | "bottom center" | "left center" | "right center";
+        
+    /**
+     * @export
+     */
+    export type IColorPickerPosition = 'left' | 'right'
+        
+    /**
+     * @export
+     */
+    export type IColorTypes = "rgb" | "prgb" | "hex6" | "hex3" | "hex8" | "hsl" | "hsv"
         /**
      * @export
      * Options that can be passed to a portal container component
@@ -1238,7 +1426,11 @@ declare module "uxp/components" {
      *
      * @example
      * ```
-     *  <IconButton type="search" />
+     *  <IconButton
+     *      type="search"
+     *      onClick={()=> {alert("Clicked")}}
+     *      className="custom-css-class"
+     *  />
      * ```
      *
      */
@@ -1337,35 +1529,99 @@ declare module "uxp/components" {
      */
     export const Input : React.FunctionComponent<IInputProps>;
         
-    interface IProfileImageProps {
+    interface ICheckboxProps {
+        /**
+         * Called when the checkbox is checked or unchecked by clicking on it
+         */
+        onChange: (checked: boolean) => void,
     
         /**
-         * The url for the image to be shown
+         * Get or set the current state of the checkbox
          */
-        image?: string,
+        checked: boolean,
     
         /**
-         * Any name to be dispayed. This is used only if the image is empty.
-         * 2 letters will be derived from the name (typically the first letter of the first 2 words in the name)
-         * and a background color will be chosen. Background colors are random but consistent. So a given `name` string will always have the same background
+         * Any additional text to show next to the checkbox
          */
-        name?: string,
-        bgColor?: string,
-        textColor?: string,
-        className?: string,
-        size?: ISize
+        label?: string,
+    
+        /**
+         * If set to 'false' the checkbox will show in an 'invalid' state - neither true nor false
+         */
+        isValid?: boolean,
+    
+        /**
+         * Any additional html attributes to pass to the underlying input field
+         */
+        inputAttr?: { [key: string]: string | boolean },
+    
+        /**
+         * Determines how the checkbox looks, visually
+         */
+        type?: ICheckboxType
+    
+        /**
+         * additional styles
+         */
+        className?: string
     }
     /**
-     * Display a profile picture. Alternatively you can specify a name and it will be shown in a colored background as initials
      *
      * @export
+     *
+     * A checkbox component. This can render a true/value value in multiple ways. Set the type property to determine how it looks visually.
+     * types : default, bordered, change-icon, switch-line, switch-box
+     *
+     * @example
+     * ```
+     *  <Checkbox
+     *      checked={checked}
+     *      onChange={(isChecked) => setChecked(isChecked)}
+     *      label='Are you sure'
+     *  />
+     * ```
+     *
+     * @example
+     * ```
+     *  <Checkbox
+     *      checked={checked}
+     *      onChange={(isChecked) => setChecked(isChecked)}
+     *      label='Are you sure'
+     *      type="switch-box"
+     *  />
+     * ```
+     *
      */
-    export const ProfileImage : React.FunctionComponent<IProfileImageProps>;
+    export const Checkbox : React.FunctionComponent<ICheckboxProps>;
         /**
      * Show a simple loading animation indicator
      * @export
      */
     export const Loading : React.FunctionComponent<{}>;
+        
+    interface INotificationProps {
+         /**
+         *  Message to show when showing
+         */
+        message: string,
+        /**
+         * Any extra css classes to apply
+         */
+        class?: string,
+        /**
+         * any extra styles
+         */
+        styles?: any
+    }
+    /**
+     * @example
+     * ```
+     *  <NotificationBlock message="-- End Of Content --" class="end-of-content" />
+     * ```
+     * @export
+     *
+     */
+    export const NotificationBlock : React.FunctionComponent<INotificationProps>;
         
     interface IButtonProps {
         /**
@@ -1406,8 +1662,516 @@ declare module "uxp/components" {
     /**
      * This is a basic button component.
      * @export
+     *
+     * @example
+     * ```
+     *  <Button
+     *      title="Click"
+     *      onClick={() => {alert("Clicked")}}
+     *  />
+     * ```
+     *
+     * @example
+     * ```
+     *  <Button
+     *      title="Click"
+     *      onClick={() => {alert("Clicked")}}
+     *      icon="https://static.iviva.com/images/lucy-logo.svg"
+     *      loading={isLoading}
+     *      loadingTitle="Loading..."
+     *      className="custom-css-class"
+     * />
+     * ```
+     *
      */
     export const Button : React.FunctionComponent<IButtonProps>;
+        
+    interface IDataListProps {
+        /**
+         * List of items to render. This can either be an array of objects or a function that will generate the array of objects.
+         * If you supply a function then pagination will be supported. The function expects 2 parameters - `max` and `last` and returns a promise that will resolve to the list of objects.
+         * `max` specifies the maximum number of items to be returned.
+         */
+        data: Array<any> | IDataFunction,
+    
+        /**
+         * A function that will be responsible for rendering each individual element of the list.
+         * It is common to return  `ItemCard` component from here.
+         *
+         * @example
+         *
+         * ```
+         * renderItem={(item,key)=><div>{'Item:' + JSON.stringify(item)}}</div>}
+         * ```
+         *
+         * @example
+         * ```
+         * renderItem={(item,key)=><ItemCard data={item} titleField='Name' />}
+         * ```
+         */
+        renderItem: (item: any, key: number) => JSX.Element,
+    
+        /**
+         * The number of items to fetch in each page. This gets passed to the data function as the `max` parameter
+         */
+        pageSize: number,
+    
+        args?: any
+    
+    
+        /**
+         * This function renders a loading animation. If not specified, the default loading animation will be used.
+         */
+        renderLoading?: () => JSX.Element,
+    
+        /**
+         * Any extra class names to be added to the component
+         */
+        className?: string
+        /**
+         * show/hide footer (scroll buttons)
+         */
+        showFooter?: boolean,
+        /**
+         * mun of rows to scroll
+         */
+        scrollStep?: number,
+        /**
+         * show/hide end of content message
+         */
+        showEndOfContent?: boolean,
+    
+        /**
+         * this function will be called every time list get updated
+         * this will return total number of items (function should return the total count) and loaded items count
+         */
+        onItemsLoad?: (total: number, loaded: number) => void
+    
+    
+    }
+    /**
+     *
+     * A infinite-scrollable list that supports paging in of items
+     * @export
+     *
+     *
+     *
+     *
+     * @example
+     * ```
+     *  Using array
+     *
+     *  let data:any[] = [
+     *      {
+     *          "id": 1,
+     *          "name": "Name 01"
+     *      },
+     *      {
+     *          "id": 2,
+     *          "name": "Name 01"
+     *      },
+     *      {
+     *          "id": 3,
+     *          "name": "Name 01"
+     *      }
+     *  ]
+     *
+     *  function renderItem(item:any, key:number) {
+     *      return <div>
+     *          <div>{item.name} </div>
+     *      </div>
+     *  }
+     *
+     *  <DataList
+     *      data={data}
+     *      renderItem={(item, key) => renderItem(item, key)}
+     *      pageSize={10}
+     *  />
+     * ```
+     *
+     * @example
+     * ```
+     *  Using IDataFunction
+     *  async function getData(max:number, last: string, args: any) {
+     *      if(!last) last = "0";
+     *
+     *      return new Promise<{items:any[], pageToken: string}>((done, nope) =>{
+     *          executeAction("model", "action", {max: max, last: last, args: args})
+     *          .then(res => {
+     *              done({items: res.data, pageToken: res.lastPageToken })
+     *          })
+     *          .catch(e => {
+     *              done({items: [], pageToken: last})
+     *          })
+     *      })
+     *  }
+     *
+     *  function renderItem(item:any, key:number) {
+     *      return <div>
+     *          <div>{item.name} </div>
+     *      </div>
+     *  }
+     *
+     *  <DataList
+     *      data={(max, last, args) => getData(max, last, args)}
+     *      renderItem={(item, key) => renderItem(item, key)}
+     *      pageSize={10}
+     *  />
+     *
+     * ```
+     *
+     * @example
+     * ```
+     *  Using other props
+     *
+     *  <DataList
+     *      data={data}
+     *      renderItem={(item, key) => renderItem(item, key)}
+     *      pageSize={10}
+     *      className="custom-css-class"
+     *      showFooter={false}
+     *      showEndOfContent={false}
+     *  />
+     *
+     * ```
+     */
+    export const DataList : React.FunctionComponent<IDataListProps>;
+        
+    interface ISearchBoxProps {
+        /**
+         * Default value
+         */
+        value: string,
+        /**
+        * This function is called whenever the text changes. The new text value is passed as a parameter
+        */
+        onChange: (newValue: string) => void,
+        /**
+         * Any additional class names to be included for the input field
+         */
+        className?: string,
+        /**
+         * show only a icon button when true. When click on the button it will show the actual search box
+         */
+        collapsed?: boolean,
+        /**
+         * position of search box
+         */
+        position?: IPosition,
+        /**
+         * placeholder value
+         */
+        placeholder?: string
+        /**
+         * input will be auto focused if true
+         */
+        autoFocus?: boolean
+    }
+    /**
+     *
+     * @export
+     *
+     * This component is used to render a search box.
+     *
+     * @example
+     * ```
+     *  <SearchBox
+     *      value={inputValue}
+     *      onChange={(newValue) => { setInputValue(newValue) }}
+     *  />
+     * ```
+     *
+     * @example
+     *  <SearchBox
+     *      value={inputValue}
+     *      onChange={(newValue) => { setInputValue(newValue) }}
+     *      collapsed
+     *      position="right"
+     *  />
+     *
+     */
+    export const SearchBox : React.FunctionComponent<ISearchBoxProps>;
+        /**
+     * @export
+     */
+    interface ISelectProps {
+        /**
+         * List of items to select from.
+         * Each option has a label which is displayed and a value which is what we actually select.
+         * also you can pass any object as options, then specify the labelField, valueField props
+         */
+        options: IOption[] | any[],
+        /**
+         * Name of the field you want to display as label
+         * If not given default(label) will be used
+         */
+        labelField?: string,
+        /**
+         * Name of the field you want to return  as value
+         * If not given default(value) will be used
+         */
+        valueField?: string,
+        /**
+         * The  currently selected value
+         */
+        selected: string,
+    
+        /**
+         * Gets called whenever the selection changes.
+         * The value parameter has the newly selected value
+         * option parameter has the complete option/ object that you passed
+         */
+        onChange: (value: string, option?: IOption | any) => void,
+    
+        /**
+         * Text to show when no value is selected
+         */
+        placeholder?: string,
+        /**
+         * Any extra css classes to add to the component
+         */
+        className?: string,
+    
+        /**
+         * Set this to false to indicate the field doesn't have a valid value
+         */
+        isValid?: boolean,
+        // inputAttr?: any
+        /**
+         * show hide end of content message
+         */
+        showEndOfContent?: boolean
+    
+    }
+    /**
+     *
+     * A select control to select one item from a list of multiple items
+     * @export
+     *
+     *  @example
+     * ```
+     *  // options
+     *  let [selectedOption, setSelectedOption] = React.useState<string>(null)
+     *  let options = [
+     *      {label: "Sri Lanka", value: "SL"},
+     *      {label: "India", value: "IN"},
+     *      {label: "United State", value: "US"},
+     *  ]
+     *
+     *  <Select
+     *      options={options}
+     *      selected={selectedOption}
+     *      onChange={(newValue, option) => {
+     *          setSelectedOption(value)
+     *      }}
+     *  />
+     * ```
+     *
+     * @example
+     * ```
+     *  // options
+     *  let [selectedOption, setSelectedOption] = React.useState<string>(null)
+     *  let options = [
+     *      {name: "Sri Lanka", code: "SL"},
+     *      {name: "India", code: "IN"},
+     *      {name: "United State", code: "US"},
+     *  ]
+     *
+     *  <Select
+     *      options={options}
+     *      labelField="name"
+     *      valueField="code"
+     *      selected={selectedOption}
+     *      onChange={(newValue, option) => {
+     *          setSelectedOption(value)
+     *      }}
+     *  />
+     * ```
+     *
+     */
+    export const Select : React.FunctionComponent<ISelectProps>;
+        /**
+     * @export
+     *
+     */
+    interface IDatePickerProps {
+        /**
+         * The title
+         */
+        title: string,
+    
+        /**
+         * The currently selected date. Either a Date object or an ISO8601 string representation of a date
+         */
+        date: string | Date,
+    
+        /**
+         * Callback that gets executed whenever a date is selected/changed in the date picker
+         */
+        onChange: (date: Date) => void,
+    
+        /**
+         * Called when the calendar popup is closed
+         */
+        closeOnSelect?: boolean,
+    
+        /**
+         * Additional options to control behavior
+         */
+        options?: IDatePickerOptions,
+    
+        /**
+         * Set to true to prevent a user from typing in a date
+         */
+        disableInput?: boolean,
+    
+    }
+    /**
+     *
+     * @export
+     *
+     * This component is used to select a date.
+     *
+     * @example
+     * ```
+     *  <DatePicker
+     *    title="Date"
+     *    date={date}
+     *    onChange={(date) => setDate(date)}
+     * />
+     * ```
+     *
+     * @example
+     * <DatePicker
+     *     title="Date"
+     *     date={date}
+     *     onChange={(date) => setDate(date)}
+     *     options={{
+     *         disableWeekEnds: true
+     *     }}
+     * />
+     */
+    export const DatePicker : React.FunctionComponent<IDatePickerProps>;
+        
+    interface ITimePickerProps {
+        /**
+        * The title
+        */
+        title: string
+        /**
+         * The currently selected time. Either a Date object or an time string (Ex: 01:10:00 pm)
+         */
+        time: string | Date,
+        /**
+        * Callback that gets executed whenever a time is selected/changed in the time picker
+        */
+        onChange: (date: Date) => void,
+        /**
+        * Set to true to prevent a user from typing in a date
+        */
+        disableInput?: boolean
+    }
+    /**
+     *
+     * @export
+     *
+     * This component is used to select a time.
+     *
+     * @example
+     * ```
+     *  <TimePicker
+     *      title="Time"
+     *      time={date}
+     *      onChange={(date) => setDate(date)}
+     *  />
+     * ```
+     */
+    export const TimePicker : React.FunctionComponent<ITimePickerProps>;
+        /**
+     * @export
+     * Options that can be passed to Loaders
+     */
+    interface IWidgetPreloaderLoaderProps {
+    }
+    /**
+     *
+     * @export
+     * This is the default pre loader for widgets
+     */
+    export const DefaultLoader : React.FunctionComponent<IWidgetPreloaderLoaderProps>;
+        /**
+     * @export
+     * Options that can be passed to Loaders
+     */
+    interface IWidgetPreloaderLoaderProps {
+    }
+    /**
+     *
+     * @export
+     * Bar chart loader
+     */
+    export const BarChartLoader : React.FunctionComponent<IWidgetPreloaderLoaderProps>;
+        /**
+     * @export
+     * Options that can be passed to Loaders
+     */
+    interface IWidgetPreloaderLoaderProps {
+    }
+    /**
+     *
+     * @export
+     * Donut chart loader
+     */
+    export const DonutChartLoader : React.FunctionComponent<IWidgetPreloaderLoaderProps>;
+        /**
+     * @export
+     * Options that can be passed to Loaders
+     */
+    interface IWidgetPreloaderLoaderProps {
+    }
+    /**
+     *
+     * @export
+     * gauge loader
+     */
+    export const GaugeLoader : React.FunctionComponent<IWidgetPreloaderLoaderProps>;
+        /**
+     * @export
+     * Options that can be passed to Loaders
+     */
+    interface IWidgetPreloaderLoaderProps {
+    }
+    /**
+     *
+     * @export
+     * heatmap chart loader
+     */
+    export const HeatmapChartLoader : React.FunctionComponent<IWidgetPreloaderLoaderProps>;
+        
+    interface IProfileImageProps {
+    
+        /**
+         * The url for the image to be shown
+         */
+        image?: string,
+    
+        /**
+         * Any name to be dispayed. This is used only if the image is empty.
+         * 2 letters will be derived from the name (typically the first letter of the first 2 words in the name)
+         * and a background color will be chosen. Background colors are random but consistent. So a given `name` string will always have the same background
+         */
+        name?: string,
+        bgColor?: string,
+        textColor?: string,
+        className?: string,
+        size?: ISize
+    }
+    /**
+     * Display a profile picture. Alternatively you can specify a name and it will be shown in a colored background as initials
+     *
+     * @export
+     */
+    export const ProfileImage : React.FunctionComponent<IProfileImageProps>;
         /**
      * @export
      */
@@ -1601,6 +2365,18 @@ declare module "uxp/components" {
      * This is a button that is meant to be used to execute a async action.
      * The onClick handler should return a promise. The button's behavior is to set the status as 'loading...' until the promise that was returned evluates and returns a result or throws an exception.
      * @export
+     *
+     * @example
+     * ```
+     *  <AsyncButton
+     *      title="Submit"
+     *      onClick={async() => {return executeAction("model", "action", {})}}
+     *      icon="https://static.iviva.com/images/Adani_UXP/QR_badge_icon.svg"
+     *      loadingTitle="Submitting..."
+     *      className="custom-css-class"
+     *  />
+     * ```
+     *
      */
     export const AsyncButton : React.FunctionComponent<IAsyncButtonProps>;
         /**
@@ -1653,6 +2429,45 @@ declare module "uxp/components" {
      * This component is used to show a modal dialog that takes the user through as sequence of steps.
      * You define how each step should render.
      * @export
+     *
+     * @example
+     * ```
+     *  <ModalWizard
+     *      show={show}
+     *      title="Sample modal wizard"
+     *      steps={[
+     *      {
+     *          id: "step-1",
+     *          render: (props) => <div>
+     *              <FormField>
+     *                  <Label>Name</Label>
+     *                  <Input value={name} onChange={setName} />
+     *              </FormField>
+     *              <FormField>
+     *                  <Label>Email</Label>
+     *                  <Input value={email} onChange={setEmail} />
+     *              </FormField>
+     *          </div>,
+     *          renderStatus: () => <div>Personal Details</div>,
+     *          onValidateStep: () => "step-2",
+     *          showStatus: true
+     *      },
+     *      {
+     *          id: "step-2",
+     *          render: (props) => <div>
+     *              <FormField>
+     *                  <Label>University</Label>
+     *                  <Input value={school} onChange={setSchool} />
+     *              </FormField>
+     *          </div>,
+     *          renderStatus: () => <div>Educational Details</div>
+     *      }
+     *  ]}
+     *  onClose={() => { setShow(false) }}
+     *  onComplete={async () => { return executeAction("model", "action", {data: data}) }}
+     * />
+     * ```
+     *
      */
     export const ModalWizard : React.FunctionComponent<IModalWizardProps>;
         
@@ -1826,29 +2641,194 @@ declare module "uxp/components" {
      */
     export const CalendarComponent : React.FunctionComponent<ICalendarComponentProps>;
         
-    interface INotificationProps {
-         /**
-         *  Message to show when showing
-         */
-        message: string,
+    interface IDynamicSelectProps {
         /**
-         * Any extra css classes to apply
+         * List of options to render.
+         * This a function that will generate the array of objects.
+         * pagination will be supported.
+         * The function expects 2 parameters - max and last and returns a promise that will resolve to the list of objects. max specifies the maximum number of items to be returned.
          */
-        class?: string,
+        options: IDynamicSelectDataFunction,
         /**
-         * any extra styles
+         * selected option label
          */
-        styles?: any
+        selected: string,
+        /**
+         * Callback that gets executed whenever a option is selected/changed
+         */
+        onChange: (value: any) => void,
+        /**
+         * placeholder text
+         */
+        placeholder?: string,
+        /**
+         * Any extra css classes to add to the button
+         */
+        className?: string,
+        /**
+         * set to valid state if true
+         */
+        isValid?: boolean,
+        /**
+         * page size for pagination
+         */
+        pageSize?: number,
+        /**
+         * A function that will be responsible for rendering each individual option of the list.
+         * It is common to return  `ItemCard` component from here.
+         *
+         * @example
+         *
+         * ```
+         * renderItem={(option,key)=><div>{option.label}</div>}
+         * ```
+         *
+         * @example
+         * ```
+         * renderItem={(option,key)=><ItemCard data={item} titleField='label' />}
+         * ```
+         */
+        renderOption?: (item: any, key: number) => JSX.Element,
+        /**
+         * name of the field to display
+         */
+        labelField: string,
+        /**
+         * number of milliseconds to delay send the request on change query
+         * default is 500
+         *
+         */
+        timeout?: number,
+        type?: "search-box" | "select-box",
+        /**
+         * show hide end of content message
+         */
+        showEndOfContent?: boolean
     }
     /**
-     * @example
-     * ```
-     *  <NotificationBlock message="-- End Of Content --" class="end-of-content" />
-     * ```
+     *
      * @export
      *
+     * This component is used to create a select box with pagination (infinite scrolling) & search/filter options.
+     * Support keyboard interactions
+     *  - Arrow Keys (up & down) - navigate through options list
+     *  - Enter Key - Select current highlighted option
+     *  - Escape Key - Exit select mode & discard changes
+     * @example
+     * ```
+     *  <DynamicSelect
+     *      selected={selected}
+     *      options={(max: number, pageToken: string, args?: any) => getOptions(max, pageToken, args)}
+     *      onChange={(value) => { setSelected(value)}}
+     *      placeholder=" -- select --"
+     *      labelField="label"
+     *      timeout={500}
+     *  />
+     * ```
+     *
      */
-    export const NotificationBlock : React.FunctionComponent<INotificationProps>;
+    export const DynamicSelect : React.FunctionComponent<IDynamicSelectProps>;
+        /**
+     * @export
+     */
+    interface IMultiSelectProps {
+        /**
+         * List of items to select from.
+         * Each option has a label which is displayed and a value which is what we actually select.
+         * also you can pass any object as options, then specify the labelField, valueField props
+         */
+        options: IOption[] | any[],
+        /**
+         * Name of the field you want to display as label
+         * If not given default(label) will be used
+         */
+        labelField?: string,
+        /**
+         * Name of the field you want to return  as value
+         * If not given default(value) will be used
+         */
+        valueField?: string,
+        /**
+         * The  currently selected value
+         *
+         * ['option1', 'option2']
+         */
+        selected: string[],
+    
+        /**
+         * Gets called whenever the selection changes.
+         * The value parameter has the newly selected value
+         * option parameter has the complete option/ object that you passed
+         */
+        onChange: (values: string[], options?: IOption[] | any[]) => void,
+    
+        /**
+         * Text to show when no value is selected
+         */
+        placeholder?: string,
+        /**
+         * Any extra css classes to add to the component
+         */
+        className?: string,
+    
+        /**
+         * Set this to false to indicate the field doesn't have a valid value
+         */
+        isValid?: boolean,
+        // inputAttr?: any
+        /**
+         * show hide end of content message
+         */
+        showEndOfContent?: boolean
+    
+    }
+    /**
+     *
+     * A select control to select multiple items from a list of items
+     * @export
+     *
+     *  @example
+     * ```
+     *  // options
+     *  let [selectedOptions, setSelectedOptions] = React.useState<string[]>([])
+     *  let options = [
+     *      {label: "Sri Lanka", value: "SL"},
+     *      {label: "India", value: "IN"},
+     *      {label: "United State", value: "US"},
+     *  ]
+     *
+     *  <MultiSelect
+     *      options={options}
+     *      selected={selectedOptions}
+     *      onChange={(newValues, options) => {
+     *          setSelectedOptions(values)
+     *      }}
+     *  />
+     * ```
+     *
+     * @example
+     * ```
+     *  // options
+     *  let [selectedOptions, setSelectedOptions] = React.useState<string[]>([])
+     *  let options = [
+     *      {name: "Sri Lanka", code: "SL"},
+     *      {name: "India", code: "IN"},
+     *      {name: "United State", code: "US"},
+     *  ]
+     *
+     *  <MultiSelect
+     *      options={options}
+     *      labelField="name"
+     *      valueField="code"
+     *      selected={selectedOptions}
+     *      onChange={(newValues, options) => {
+     *          setSelectedOptions(values)
+     *      }}
+     *  />
+     * ```
+     *
+     */
+    export const MultiSelect : React.FunctionComponent<IMultiSelectProps>;
         
     interface IDataTableProps {
         /**
@@ -1945,6 +2925,61 @@ declare module "uxp/components" {
      *
      * A infinite-scrollable list that supports paging in of items
      * @export
+     *
+     * @example
+     * ```
+     *  <DataTable
+     *      data={(max, last) => getDataItems(max, last)}
+     *      pageSize={10}
+     *      columns={[
+     *          {
+     *              title: "Request",
+     *              width: "30%",
+     *              renderColumn: (item) => <ItemCard
+     *                  item={item}
+     *                  subTitleField="request"
+     *                  className="data-table-item"
+     *              />
+     *          },
+     *          {
+     *              title: "User",
+     *              width: "25%",
+     *              renderColumn: (item) => <ItemCard
+     *                  item={item}
+     *                  subTitleField="user"
+     *                  className="data-table-item"
+     *              />
+     *          },
+     *          {
+     *              title: "Zone",
+     *              width: "15%",
+     *              renderColumn: (item) => <ItemCard
+     *                  item={item}
+     *                  subTitleField="section"
+     *                  className="data-table-item"
+     *              />
+     *          },
+     *          {
+     *              title: "Status",
+     *              width: "15%",
+     *              renderColumn: (item) => <ItemCard
+     *                  item={item}
+     *                  subTitleField="status"
+     *                  className="data-table-item"
+     *              />
+     *          },
+     *          {
+     *              title: "Date",
+     *              width: "15%",
+     *              renderColumn: (item) => <ItemCard
+     *                  item={item}
+     *                  subTitleField="date"
+     *                  className="data-table-item"
+     *              />
+     *          }
+     *      ]}
+     *  />
+     * ```
      */
     export const DataTable : React.FunctionComponent<IDataTableProps>;
         
@@ -1984,6 +3019,36 @@ declare module "uxp/components" {
      * This component is used to render some item in a standard card form.
      * This includes a profile pic, a title, a subtitle and a list of fields and values.
      * @export
+     *
+     * @example
+     * ```
+     *  <ItemCard
+     *      item={{
+     *          request: "AC Extension request #36",
+     *          user: "Johnson & Johnson",
+     *          section: "Parking 1",
+     *          status: "approved",
+     *          date: "23/0702020"
+     *      }}
+     *      titleField="request"
+     *      subTitleField="date"
+     *      className="data-table-item"
+     *  />
+     * ```
+     *
+     * @example
+     * ```
+     *  <ItemCard
+     *      item={{
+     *          id: "1",
+     *          image: "https://avatars.dicebear.com/api/male/john.svg?background=%230000ff"
+     *          name: "John Doe",
+     *      }}
+     *      imageField="image"
+     *      titleField="name"
+     *      className="data-table-item"
+     *  />
+     * ```
      *
      */
     export const ItemCard : React.FunctionComponent<IItemCardProps>;
@@ -2030,290 +3095,6 @@ declare module "uxp/components" {
      *
      */
     export const FormFeedback : React.FunctionComponent<IFormFeedbackProps>;
-        
-    interface ICheckboxProps {
-        /**
-         * Called when the checkbox is checked or unchecked by clicking on it
-         */
-        onChange: (checked: boolean) => void,
-    
-        /**
-         * Get or set the current state of the checkbox
-         */
-        checked: boolean,
-    
-        /**
-         * Any additional text to show next to the checkbox
-         */
-        label?: string,
-    
-        /**
-         * If set to 'false' the checkbox will show in an 'invalid' state - neither true nor false
-         */
-        isValid?: boolean,
-    
-        /**
-         * Any additional html attributes to pass to the underlying input field
-         */
-        inputAttr?: { [key: string]: string | boolean },
-    
-        /**
-         * Determines how the checkbox looks, visually
-         */
-        type?: ICheckboxType
-    }
-    /**
-     *
-     * @export
-     *
-     * A checkbox component. This can render a true/value value in multiple ways. Set the type property to determine how it looks visually.
-     * types : default, bordered, change-icon, switch-line, switch-box
-     *
-     * @example
-     * ```
-     *  <Checkbox
-     *      checked={checked}
-     *      onChange={(isChecked) => setChecked(isChecked)}
-     *      label='Are you sure'
-     *  />
-     * ```
-     *
-     * @example
-     * ```
-     *  <Checkbox
-     *      checked={checked}
-     *      onChange={(isChecked) => setChecked(isChecked)}
-     *      label='Are you sure'
-     *      type="switch-box"
-     *  />
-     * ```
-     *
-     */
-    export const Checkbox : React.FunctionComponent<ICheckboxProps>;
-        
-    interface IDataListProps {
-        /**
-         * List of items to render. This can either be an array of objects or a function that will generate the array of objects.
-         * If you supply a function then pagination will be supported. The function expects 2 parameters - `max` and `last` and returns a promise that will resolve to the list of objects.
-         * `max` specifies the maximum number of items to be returned.
-         */
-        data: Array<any> | IDataFunction,
-    
-        /**
-         * A function that will be responsible for rendering each individual element of the list.
-         * It is common to return  `ItemCard` component from here.
-         *
-         * @example
-         *
-         * ```
-         * renderItem={(item,key)=><div>{'Item:' + JSON.stringify(item)}}</div>}
-         * ```
-         *
-         * @example
-         * ```
-         * renderItem={(item,key)=><ItemCard data={item} titleField='Name' />}
-         * ```
-         */
-        renderItem: (item: any, key: number) => JSX.Element,
-    
-        /**
-         * The number of items to fetch in each page. This gets passed to the data function as the `max` parameter
-         */
-        pageSize: number,
-    
-        args?: any
-    
-    
-        /**
-         * This function renders a loading animation. If not specified, the default loading animation will be used.
-         */
-        renderLoading?: () => JSX.Element,
-    
-        /**
-         * Any extra class names to be added to the component
-         */
-        className?: string
-        /**
-         * show/hide footer (scroll buttons)
-         */
-        showFooter?: boolean,
-        /**
-         * mun of rows to scroll
-         */
-        scrollStep?: number,
-        /**
-         * show/hide end of content message
-         */
-        showEndOfContent?: boolean,
-    
-        /**
-         * this function will be called every time list get updated
-         * this will return total number of items (function should return the total count) and loaded items count
-         */
-        onItemsLoad?: (total: number, loaded: number) => void
-    
-    
-    }
-    /**
-     *
-     * A infinite-scrollable list that supports paging in of items
-     * @export
-     */
-    export const DataList : React.FunctionComponent<IDataListProps>;
-        
-    interface ISearchBoxProps {
-        /**
-         * Default value
-         */
-        value: string,
-        /**
-        * This function is called whenever the text changes. The new text value is passed as a parameter
-        */
-        onChange: (newValue: string) => void,
-        /**
-         * Any additional class names to be included for the input field
-         */
-        className?: string,
-        /**
-         * show only a icon button when true. When click on the button it will show the actual search box
-         */
-        collapsed?: boolean,
-        /**
-         * position of search box
-         */
-        position?: IPosition,
-        /**
-         * placeholder value
-         */
-        placeholder?: string
-        /**
-         * input will be auto focused if true
-         */
-        autoFocus?: boolean
-    }
-    /**
-     *
-     * @export
-     *
-     * This component is used to render a search box.
-     *
-     * @example
-     * ```
-     *  <SearchBox
-     *      value={inputValue}
-     *      onChange={(newValue) => { setInputValue(newValue) }}
-     *  />
-     * ```
-     *
-     * @example
-     *  <SearchBox
-     *      value={inputValue}
-     *      onChange={(newValue) => { setInputValue(newValue) }}
-     *      collapsed
-     *      position="right"
-     *  />
-     *
-     */
-    export const SearchBox : React.FunctionComponent<ISearchBoxProps>;
-        /**
-     * @export
-     */
-    interface ISelectProps {
-        /**
-         * List of items to select from.
-         * Each option has a label which is displayed and a value which is what we actually select.
-         * also you can pass any object as options, then specify the labelField, valueField props
-         */
-        options: IOption[] | any[],
-        /**
-         * Name of the field you want to display as label
-         * If not given default(label) will be used
-         */
-        labelField?: string,
-        /**
-         * Name of the field you want to return  as value
-         * If not given default(value) will be used
-         */
-        valueField?: string,
-        /**
-         * The  currently selected value
-         */
-        selected: string,
-    
-        /**
-         * Gets called whenever the selection changes.
-         * The value parameter has the newly selected value
-         * option parameter has the complete option/ object that you passed
-         */
-        onChange: (value: string, option?: IOption | any) => void,
-    
-        /**
-         * Text to show when no value is selected
-         */
-        placeholder?: string,
-        /**
-         * Any extra css classes to add to the component
-         */
-        className?: string,
-    
-        /**
-         * Set this to false to indicate the field doesn't have a valid value
-         */
-        isValid?: boolean,
-        // inputAttr?: any
-        /**
-         * show hide end of content message
-         */
-        showEndOfContent?: boolean
-    
-    }
-    /**
-     *
-     * A select control to select one item from a list of multiple items
-     * @export
-     *
-     *  @example
-     * ```
-     *  // options
-     *  let [selectedOption, setSelectedOption] = React.useState<string>(null)
-     *  let options = [
-     *      {label: "Sri Lanka", value: "SL"},
-     *      {label: "India", value: "IN"},
-     *      {label: "United State", value: "US"},
-     *  ]
-     *
-     *  <Select
-     *      options={options}
-     *      selected={selectedOption}
-     *      onChange={(newValue, option) => {
-     *          setSelectedOption(value)
-     *      }}
-     *  />
-     * ```
-     *
-     * @example
-     * ```
-     *  // options
-     *  let [selectedOption, setSelectedOption] = React.useState<string>(null)
-     *  let options = [
-     *      {name: "Sri Lanka", code: "SL"},
-     *      {name: "India", code: "IN"},
-     *      {name: "United State", code: "US"},
-     *  ]
-     *
-     *  <Select
-     *      options={options}
-     *      labelField="name"
-     *      valueField="code"
-     *      selected={selectedOption}
-     *      onChange={(newValue, option) => {
-     *          setSelectedOption(value)
-     *      }}
-     *  />
-     * ```
-     *
-     */
-    export const Select : React.FunctionComponent<ISelectProps>;
         
     interface IToggleFilterProps {
         /**
@@ -2385,10 +3166,65 @@ declare module "uxp/components" {
      *
      * @example
      * ```
-     * <DataGrid data={[ {'temperature':33, location:'Building Lobby'}, {'temperature':32,location:'Car Park'} ]}
-     *          renderItem={(item)=><div>{`Temperature: ${item.temperature}`}}
-     *          columns={2}
-     * />
+     *  let GridData = [
+     *      {
+     *          icon: "https://static.iviva.com/images/Adani_UXP/QR_badge_icon.svg",
+     *          title: "Item Card",
+     *          subTitle: "Item card with image/icon Item card with image/icon"
+     *      },
+     *      {
+     *          icon: "",
+     *          name: "Dinesh Gamage",
+     *          title: "Item Card",
+     *          subTitle: "Item card with name"
+     *      },
+     *      {
+     *          icon: "https://static.iviva.com/images/Adani_UXP/QR_badge_icon.svg",
+     *          title: "Item Card Title & Icon",
+     *          subTitle: ""
+     *      },
+     *      {
+     *          icon: "https://static.iviva.com/images/Adani_UXP/QR_badge_icon.svg",
+     *          title: "",
+     *          subTitle: "Item Card sub Title & Icon"
+     *      },
+     *      {
+     *          title: "Item Card",
+     *          subTitle: "Item card without image/icon"
+     *      },
+     *      {
+     *          title: "Item Card Title only",
+     *      },
+     *      {
+     *          subTitle: "Item card sub title only"
+     *      },
+     *      {
+     *          icon: "https://static.iviva.com/images/Adani_UXP/QR_badge_icon.svg",
+     *          title: "QR Code",
+     *          subTitle: "scan your code"
+     *      },
+     *      {
+     *          icon: "https://static.iviva.com/images/Adani_UXP/QR_badge_icon.svg",
+     *      },
+     *      null
+     *  ]
+     *
+     *
+     *  function renderGridItem(item: any, key: number){
+     *      return (<ItemCard
+     *          item={item}
+     *          imageField="icon"
+     *          titleField="title"
+     *          subTitleField="subTitle"
+     *          nameField="name"
+     *      />)
+     *  }
+     *
+     *  <DataGrid
+     *      data={GridData}
+     *      renderItem={renderGridItem}
+     *      columns={2}
+     *  />
      * ```
      *
      */
@@ -2433,6 +3269,46 @@ declare module "uxp/components" {
      * Show a card with a list of fields in it. You need to provide an object as the `item` prop and then a list of fields from within the object to be rendered.
      * You can also provide an optional `renderField` function to customize how fields are rendered.
      * @export
+     *
+     * @example
+     * ```
+     *  <ItemListCard
+     *      title="System"
+     *      item={{
+     *          "hvac": {
+     *              "value": 250,
+     *              "percentage": 15
+     *          },
+     *          "lighting": {
+     *              "value": 250,
+     *              "percentage": 15
+     *          },
+     *          "elevators": {
+     *              "value": 250,
+     *              "percentage": 15
+     *          },
+     *          "fire alarm": {
+     *              "value": 250,
+     *              "percentage": 15
+     *          }
+     *      }}
+     *      renderSubTitle={() => {
+     *          return (<div className="sample-subtitle">Savings (AED)</div>)
+     *      }}
+     *      fields={["hvac", "lighting", "elevators", "fire alarm"]}
+     *      renderField={(item, field, key) => {
+     *          return (<div className="sample-item-field" key={key}>
+     *              <div className="label">{field.toUpperCase()}</div>
+     *              <div className="value">
+     *                  <div className="amount">{item[field].value}</div>
+     *                  <div className="percentage">{item[field].percentage}%</div>
+     *              </div>
+     *          </div>)
+     *      }}
+     *      backgroundColor="rgb(209 148 250)"
+     *  />
+     * ```
+     *
      */
     export const ItemListCard : React.FunctionComponent<IItemListCardProps>;
         /**
@@ -2523,7 +3399,7 @@ declare module "uxp/components" {
         /**
          * If you want to overlay a heatmap -  assign this object with some valid value
          */
-        heatmap?:IHeatmapConfiguration
+        heatmap?: IHeatmapConfiguration
     
         /**
          * The default zoom level to show on the map
@@ -2581,103 +3457,6 @@ declare module "uxp/components" {
      * @export
      */
     export const Wizard : React.FunctionComponent<IWizardProps>;
-        /**
-     * @export
-     *
-     */
-    interface IDatePickerProps {
-        /**
-         * The title
-         */
-        title: string,
-    
-        /**
-         * The currently selected date. Either a Date object or an ISO8601 string representation of a date
-         */
-        date: string | Date,
-    
-        /**
-         * Callback that gets executed whenever a date is selected/changed in the date picker
-         */
-        onChange: (date: Date) => void,
-    
-        /**
-         * Called when the calendar popup is closed
-         */
-        closeOnSelect?: boolean,
-    
-        /**
-         * Additional options to control behavior
-         */
-        options?: IDatePickerOptions,
-    
-        /**
-         * Set to true to prevent a user from typing in a date
-         */
-        disableInput?: boolean,
-    
-    }
-    /**
-     *
-     * @export
-     *
-     * This component is used to select a date.
-     *
-     * @example
-     * ```
-     *  <DatePicker
-     *    title="Date"
-     *    date={date}
-     *    onChange={(date) => setDate(date)}
-     * />
-     * ```
-     *
-     * @example
-     * <DatePicker
-     *     title="Date"
-     *     date={date}
-     *     onChange={(date) => setDate(date)}
-     *     options={{
-     *         disableWeekEnds: true
-     *     }}
-     * />
-     */
-    export const DatePicker : React.FunctionComponent<IDatePickerProps>;
-        
-    interface ITimePickerProps {
-        /**
-        * The title
-        */
-        title: string
-        /**
-         * The currently selected time. Either a Date object or an time string (Ex: 01:10:00 pm)
-         */
-        time: string | Date,
-        /**
-        * Callback that gets executed whenever a time is selected/changed in the time picker
-        */
-        onChange: (date: Date) => void,
-        /**
-        * Set to true to prevent a user from typing in a date
-        */
-        disableInput?: boolean
-    }
-    /**
-     *
-     * @export
-     *
-     * This component is used to select a time.
-     *
-     * @example
-     * ```
-     *  <TimePicker
-     *      title="Time"
-     *      time={date}
-     *      onChange={(date) => setDate(date)}
-     *  />
-     * ```
-     */
-    export const TimePicker : React.FunctionComponent<ITimePickerProps>;
         
     interface IDateRangePickerProps {
         title: string,
@@ -2861,6 +3640,44 @@ declare module "uxp/components" {
      * A component to show time series based trend or line visualizations
      * @export
      *
+     *
+     * @example
+     * ```
+     *  const TrendData: ITrendSeries[] = [
+     *      {
+     *          unit: "A",
+     *          lineColor: "#ff7300",
+                data: [
+                    { time: "2020/07/20", value: 200 },
+                    { time: "2020/08/20", value: 100 },
+                    { time: "2020/09/20", value: 50 },
+                    { time: "2020/10/20", value: 300 },
+                    { time: "2020/11/20", value: 700 },
+                    { time: "2020/12/20", value: 90 }
+                ],
+                type: "line"
+            },
+            {
+                unit: "B",
+                lineColor: "#413ea0",
+                fillColor: "#8884d8",
+                data: [
+                    { time: "2014/06/21", value: 50 },
+                    { time: "2020/07/20", value: 50 },
+                    { time: "2020/08/20", value: 30 },
+                    { time: "2020/09/20", value: 90 },
+                    { time: "2020/10/20", value: 300 },
+                    { time: "2020/11/20", value: 100 },
+                    { time: "2020/12/20", value: 90 }
+                ],
+                type: "area"
+            }
+        ]
+     *
+     *  <TrendChartComponent
+     *      data={TrendData}
+     *  />
+     * ```
      */
     export const TrendChartComponent : React.FunctionComponent<ITrendChartProps>;
         
@@ -2905,96 +3722,18 @@ declare module "uxp/components" {
     /**
      * This is a confirm button component.
      * @export
-     */
-    export const ConfirmButton : React.FunctionComponent<IConfirmButtonProps>;
-        
-    interface IDynamicSelectProps {
-        /**
-         * List of options to render.
-         * This a function that will generate the array of objects.
-         * pagination will be supported.
-         * The function expects 2 parameters - max and last and returns a promise that will resolve to the list of objects. max specifies the maximum number of items to be returned.
-         */
-        options: IDynamicSelectDataFunction,
-        /**
-         * selected option label
-         */
-        selected: string,
-        /**
-         * Callback that gets executed whenever a option is selected/changed
-         */
-        onChange: (value: any) => void,
-        /**
-         * placeholder text
-         */
-        placeholder?: string,
-        /**
-         * Any extra css classes to add to the button
-         */
-        className?: string,
-        /**
-         * set to valid state if true
-         */
-        isValid?: boolean,
-        /**
-         * page size for pagination
-         */
-        pageSize?: number,
-        /**
-         * A function that will be responsible for rendering each individual option of the list.
-         * It is common to return  `ItemCard` component from here.
-         *
-         * @example
-         *
-         * ```
-         * renderItem={(option,key)=><div>{option.label}</div>}
-         * ```
-         *
-         * @example
-         * ```
-         * renderItem={(option,key)=><ItemCard data={item} titleField='label' />}
-         * ```
-         */
-        renderOption?: (item: any, key: number) => JSX.Element,
-        /**
-         * name of the field to display
-         */
-        labelField: string,
-        /**
-         * number of milliseconds to delay send the request on change query
-         * default is 500
-         *
-         */
-        timeout?: number,
-        type?: "search-box" | "select-box",
-        /**
-         * show hide end of content message
-         */
-        showEndOfContent?: boolean
-    }
-    /**
      *
-     * @export
-     *
-     * This component is used to create a select box with pagination (infinite scrolling) & search/filter options.
-     * Support keyboard interactions
-     *  - Arrow Keys (up & down) - navigate through options list
-     *  - Enter Key - Select current highlighted option
-     *  - Escape Key - Exit select mode & discard changes
      * @example
      * ```
-     *  <DynamicSelect
-     *      selected={selected}
-     *      options={(max: number, pageToken: string, args?: any) => getOptions(max, pageToken, args)}
-     *      onChange={(value) => { setSelected(value)}}
-     *      placeholder=" -- select --"
-     *      labelField="label"
-     *      timeout={500}
+     *  <ConfirmButton
+     *      title="Delete Item"
+     *      loading={buttonLoading}
+     *      onConfirm={async () => {return executeAction("model", "action", {})}}
+     *      onCancel={() => {alert("Canceled")}}
      *  />
      * ```
-     *
      */
-    export const DynamicSelect : React.FunctionComponent<IDynamicSelectProps>;
+    export const ConfirmButton : React.FunctionComponent<IConfirmButtonProps>;
         /**
      * @export
      * Dropdown button props
@@ -3147,14 +3886,9 @@ declare module "uxp/components" {
         value: number;
     
         /**
-         * margin between container and svg
-         * default is 15px
-         */
-        margin?: number;
-        /**
-         * colors array
-         * color: name of the color
-         * stopAt: length of color distribution
+         * colors array.
+         * color: name of the color.
+         * stopAt: length of color distribution.
          *
          * default is blue, green, yellow, red colors at equal length
          */
@@ -3165,12 +3899,12 @@ declare module "uxp/components" {
          */
         label?: () => JSX.Element,
         /**
-         * if true show legend
+         * if true show legend.
          * default is false
          */
         legend?: boolean,
         /**
-         * color of the ticks
+         * color of the ticks.
          * default is white
          */
         tickColor?: string,
@@ -3182,6 +3916,39 @@ declare module "uxp/components" {
          * additional inline styles
          */
         styles?: React.CSSProperties
+    
+        /**
+         * if true show gradient colors
+         * default is false
+         */
+        gradient?: boolean,
+        /**
+         * thickness of the gauge
+         * This value is defend on the radius
+         * default is radius * 0.11
+         * max value is radius * 0.25
+         *
+         * if you pass a higher value than the max value, max value will be used
+         */
+        thickness?: number,
+        /**
+         * thickness of the large ticks
+         * default is 4
+         * min value is 1
+         * max value is 6
+         *
+         * if the given value is higher than the max value, max values will be used
+         */
+        largeTick?: number,
+        /**
+         * thickness of the small ticks
+         * default is 1
+         * min values is 1
+         * max values is 3
+         *
+         * if the given values is higher than the max value, max values will be used
+         */
+        smallTick?: number
     }
     /**
      *
@@ -3189,18 +3956,82 @@ declare module "uxp/components" {
      *
      * This component is used to create a radial gauge.
      *
+     * ## Demo
+     * Find a [Demo](https://lucy-uxp.github.io/dev/showcase.html#radial-gauge) here
+     *
+     *
      * @example
      * ```
      *  <RadialGauge
-     *      margin={1}
+     *      value={10}
+     *      min={0}
+     *      max={100}
+     *  />
+     * ```
+     *
+     * @example
+     * ```
+     *  <RadialGauge
      *      value={10}
      *      min={0}
      *      max={100}
      *      label={() => <>Equipment Heat</>}
      *      legend={true}
+     *      gradient={true}
+     *      thickness={20}
+     *      largeTick={5}
+     *      smallTick={2}
+     *      colors={[
+     *          {color: 'cyan', stopAt: 12.5},
+     *          {color: 'green', stopAt: 70},
+     *          {color: 'orange', stopAt: 87.5},
+     *          {color: 'red', stopAt: 100},
+     *      ]}
+     *
      *  />
      * ```
      */
     export const RadialGauge : React.FunctionComponent<IGaugeProps>;
-        export const useToast:ToastHook;    export const useResizeEffect:ResizeEffectHook;    export const useMessageBus:MessageBusHook;    export const useFields:FieldsHook;    export const useUpdateWidgetProps:IUseUpdateWidgetProps;
+        /**
+     * @export
+     *
+     */
+    interface IColorPickerProps {
+        /**
+         *  default color
+        */
+        color: string,
+        /**
+         * callback on select a color
+         */
+        onChange: (color: string) => void,
+        /**
+         * picker position.  default is left
+         */
+        position?: IColorPickerPosition,
+        /**
+         * class name for additional styles
+         */
+        className?: string,
+        /**
+         * close the picker on select a color
+         * default is true
+         */
+        closeOnSelect?: boolean,
+        /**
+         * change display format
+         */
+        displayFormat?: IColorTypes
+        /**
+         * change return format
+         */
+        returnFormat?: IColorTypes
+    }
+    /**
+     *
+     * @export
+     * Color picker input field
+     */
+    export const ColorPicker : React.FunctionComponent<IColorPickerProps>;
+        export const useToast:ToastHook;    export const useResizeEffect:ResizeEffectHook;    export const useMessageBus:MessageBusHook;    export const useFields:FieldsHook;    export const useUpdateWidgetProps:IUseUpdateWidgetProps;    export const useEventSubscriber:IEventSubscriber;    export const useEffectWithPolling:IUseEffectWithPolling;
 }
