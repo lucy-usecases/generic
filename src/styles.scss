@@ -44,12 +44,12 @@
 @keyframes generic-pulse {
 	30% {
         transform: scale(1.002);
-        background-color: #ee6211;
+        background-color: #ff5050FF;
     }
 }
 
 @keyframes generic-pulsecolor {
-  10% {background: #f96d1d}
+  10% {background: #ff5050AA}
 }
 
 @keyframes generic-ticker {
