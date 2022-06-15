@@ -16,17 +16,28 @@
 
 .generic-alert-ticker {
 
-    background-color: #f88542;
+    // background-color: #f88542;
     color: white;
     padding: 15px;
     // border-radius: 10px;
-    animation:generic-pulse 1s infinite;
     position:fixed;
     left:0px;
     right:0px;
     bottom:0px;
     width:100%;
     box-shadow: 0px -2px 4px #00000063;
+
+    .generic-alert-ticker-background{
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        animation:generic-pulse-opacity 1s infinite;
+        animation-direction: alternate;
+        opacity: 1;
+    }
 
     .generic-ticker-tape {
         white-space: nowrap;
@@ -44,12 +55,17 @@
 @keyframes generic-pulse {
 	30% {
         transform: scale(1.002);
-        background-color: #ff5050FF;
+        // background-color: #ff5050FF;
     }
 }
 
-@keyframes generic-pulsecolor {
-  10% {background: #ff5050AA}
+@keyframes generic-pulse-color {
+     10% {background: #ff5050AA;}
+}
+
+@keyframes generic-pulse-opacity {
+    0% {opacity: 0.75;}
+    100% {opacity: 1;}
 }
 
 @keyframes generic-ticker {

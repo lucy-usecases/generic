@@ -32,6 +32,7 @@ interface IAlertTickerProps {
     instanceId?: string;
     model: string;
     action: string;
+    color: string;
     category: string;
     locationFilterCategory: string;
 
@@ -78,8 +79,12 @@ const AlertTicker:React.FunctionComponent<IAlertTickerProps> = (props) => {
     if (!messages?.length) {
         return <div />
     }
+
+    let backgroundColor = props.color || '#f88542'
+
     return <PortalContainer disableScroll={false}>
 <div className='generic-alert-ticker' ref={p}>
+        <div className="generic-alert-ticker-background" style={{backgroundColor}}></div>
         <div className={'generic-ticker-tape ' + (animated?'animated':'')} ref={c} >{messages.join(' • ')}</div>
     </div>
     </PortalContainer>;
@@ -116,6 +121,11 @@ registerWidget({
             {
                 name:"locationFilterCategory",
                 "label":"Which location filter attribute should this widget react to",
+                "type":"string"
+            },
+            {
+                name:"color",
+                "label":"Background color of the alert (Eg: #458720FF)",
                 "type":"string"
             },
         ]
